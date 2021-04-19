@@ -93,7 +93,7 @@ class RoundArrayQueue {
 			return;
 		}
 		arr[rear] = n;
-		rear = (rear + 1) % maxSize;
+		rear = (rear + 1) % maxSize; //取模的目的在于防止溢出
 	}
 
 	// 获取队列的数据, 出队列
@@ -104,7 +104,7 @@ class RoundArrayQueue {
 			throw new RuntimeException("队列空，不能取数据");
 		}
 		int value = arr[front];
-		front = (front + 1) % maxSize;
+		front = (front + 1) % maxSize; //取模的目的在于防止溢出
 		return value;
 	}
 
@@ -115,17 +115,22 @@ class RoundArrayQueue {
 			System.out.println("队列空的，没有数据~~");
 			return;
 		}
-		for (int i = 0; i < arr.length; i++) {
-			System.out.printf("arr[%d]=%d\n", i, arr[i]);
+		//因为是循环队列 所以不能全部便利，只取有效数据，及从front开始便利
+		for (int i = front; i < front + size(); i++) {//当font == maxsize时， 限制条件要为front + size()
+			System.out.printf("arr[%d]=%d\n", i % maxSize, arr[i % maxSize]);
 		}
 	}
 
+	//获取有效数据
+	public Integer size() {
+		return (rear + maxSize - front) % maxSize;
+	}
 	// 显示队列的头数据， 注意不是取出数据
 	public int headQueue() {
 		// 判断
 		if (isEmpty()) {
 			throw new RuntimeException("队列空的，没有数据~~");
 		}
-		return arr[front + 1];
+		return arr[front];
 	}
 }

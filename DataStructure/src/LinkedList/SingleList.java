@@ -22,7 +22,7 @@ public class SingleList {
         linkedList.addByOrder(node4);
         linkedList.addByOrder(node3);
         linkedList.reverse();
-        //linkedList.list();
+        linkedList.list();
     }
 
 }
@@ -41,7 +41,7 @@ class SingleLinkedList{
         temp.nextNode = node;
     }
 
-    //添加时排序
+    //添加时排序 一定要使用temp.nextnode进行比较，
     public void addByOrder(Node node){
         Node temp = headnode;
         while(true){
@@ -74,6 +74,7 @@ class SingleLinkedList{
         }
     }
 
+    //反转原理：新建一个node，便利需要反转的链表，将每次循环出来的节点放在新建链表的第一个即可，随后将原先链表的next指向反转后的链表即可
     public void reverse(){
         Node reverse = new Node(0,null,null);
         Node temp = headnode.nextNode;
@@ -82,23 +83,12 @@ class SingleLinkedList{
                 System.out.println("链表为空无法reverse");
                 break;
             }
-            if(reverse.nextNode == null){
-                Node node = new Node(temp.num,temp.name,null);
-                reverse.nextNode = node;
-            }else{
-                Node node = reverse.nextNode;
-                //reverse.nextNode = temp;
-                reverse.nextNode.nextNode = node;
-            }
+            Node oldNode = reverse.nextNode;
+            Node newNode = new Node(temp.num,temp.name,oldNode);
+            reverse.nextNode = newNode;
             temp = temp.nextNode;
         }
-        while(true){
-            if(reverse == null){//代表当前元素就是最后一个
-                break;
-            }
-            System.out.println(reverse);
-            reverse = reverse.nextNode;
-        }
+        headnode.nextNode = reverse.nextNode;
     }
 }
 
